@@ -9,6 +9,10 @@ var nonStaticKinds = [
     index_1.ReflectionKind.Interface,
     index_1.ReflectionKind.Module
 ];
+var nonStaticMergeKinds = [
+    ts.SyntaxKind.ClassDeclaration,
+    ts.SyntaxKind.InterfaceDeclaration
+];
 function createDeclaration(context, node, kind, name) {
     var container = context.scope;
     if (!(container instanceof index_1.ContainerReflection)) {
@@ -58,7 +62,7 @@ function createDeclaration(context, node, kind, name) {
             if (node.parent && node.parent.kind === ts.SyntaxKind.Constructor) {
                 isConstructorProperty = true;
             }
-            else if (!node.parent || node.parent.kind !== ts.SyntaxKind.ClassDeclaration) {
+            else if (!node.parent || nonStaticMergeKinds.indexOf(node.parent.kind) === -1) {
                 isStatic = true;
             }
         }

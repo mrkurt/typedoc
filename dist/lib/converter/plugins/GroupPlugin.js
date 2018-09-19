@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -27,19 +30,18 @@ var GroupPlugin = (function (_super) {
     }
     GroupPlugin_1 = GroupPlugin;
     GroupPlugin.prototype.initialize = function () {
+        var _a;
         this.listenTo(this.owner, (_a = {},
             _a[converter_1.Converter.EVENT_RESOLVE] = this.onResolve,
             _a[converter_1.Converter.EVENT_RESOLVE_END] = this.onEndResolve,
             _a));
-        var _a;
     };
     GroupPlugin.prototype.onResolve = function (context, reflection) {
         reflection.kindString = GroupPlugin_1.getKindSingular(reflection.kind);
         if (reflection instanceof index_1.ContainerReflection) {
-            var container = reflection;
-            if (container.children && container.children.length > 0) {
-                container.children.sort(GroupPlugin_1.sortCallback);
-                container.groups = GroupPlugin_1.getReflectionGroups(container.children);
+            if (reflection.children && reflection.children.length > 0) {
+                reflection.children.sort(GroupPlugin_1.sortCallback);
+                reflection.groups = GroupPlugin_1.getReflectionGroups(reflection.children);
             }
         }
     };
@@ -140,6 +142,7 @@ var GroupPlugin = (function (_super) {
             return aWeight - bWeight;
         }
     };
+    var GroupPlugin_1;
     GroupPlugin.WEIGHTS = [
         index_1.ReflectionKind.Global,
         index_1.ReflectionKind.ExternalModule,
@@ -185,7 +188,6 @@ var GroupPlugin = (function (_super) {
         components_1.Component({ name: 'group' })
     ], GroupPlugin);
     return GroupPlugin;
-    var GroupPlugin_1;
 }(components_1.ConverterComponent));
 exports.GroupPlugin = GroupPlugin;
 //# sourceMappingURL=GroupPlugin.js.map

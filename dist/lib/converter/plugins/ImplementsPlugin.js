@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -91,9 +94,8 @@ var ImplementsPlugin = (function (_super) {
                 if (!(type instanceof index_2.ReferenceType)) {
                     return;
                 }
-                var source = type.reflection;
-                if (source && source.kindOf(index_1.ReflectionKind.Interface)) {
-                    _this.analyzeClass(context, reflection, source);
+                if (type.reflection && type.reflection.kindOf(index_1.ReflectionKind.Interface)) {
+                    _this.analyzeClass(context, reflection, type.reflection);
                 }
             });
         }

@@ -7,7 +7,7 @@ var Comment = (function () {
         this.text = text || '';
     }
     Comment.prototype.hasVisibleComponent = function () {
-        return (!!this.shortText || !!this.text || !!this.tags);
+        return !!this.shortText || !!this.text || !!this.tags;
     };
     Comment.prototype.hasTag = function (tagName) {
         if (!this.tags) {

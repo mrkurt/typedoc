@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -28,21 +31,20 @@ var CategoryPlugin = (function (_super) {
     }
     CategoryPlugin_1 = CategoryPlugin;
     CategoryPlugin.prototype.initialize = function () {
+        var _a;
         this.listenTo(this.owner, (_a = {},
             _a[converter_1.Converter.EVENT_RESOLVE] = this.onResolve,
             _a[converter_1.Converter.EVENT_RESOLVE_END] = this.onEndResolve,
             _a));
-        var _a;
     };
     CategoryPlugin.prototype.onResolve = function (context, reflection) {
         if (reflection instanceof index_1.ContainerReflection) {
-            var container = reflection;
-            if (container.children && container.children.length > 0) {
-                container.children.sort(GroupPlugin_1.GroupPlugin.sortCallback);
-                container.categories = CategoryPlugin_1.getReflectionCategories(container.children);
+            if (reflection.children && reflection.children.length > 0) {
+                reflection.children.sort(GroupPlugin_1.GroupPlugin.sortCallback);
+                reflection.categories = CategoryPlugin_1.getReflectionCategories(reflection.children);
             }
-            if (container.categories && container.categories.length > 1) {
-                container.categories.sort(CategoryPlugin_1.sortCatCallback);
+            if (reflection.categories && reflection.categories.length > 1) {
+                reflection.categories.sort(CategoryPlugin_1.sortCatCallback);
             }
         }
     };
@@ -121,12 +123,12 @@ var CategoryPlugin = (function (_super) {
         }
         return aWeight - bWeight;
     };
+    var CategoryPlugin_1;
     CategoryPlugin.WEIGHTS = [];
     CategoryPlugin = CategoryPlugin_1 = __decorate([
         components_1.Component({ name: 'category' })
     ], CategoryPlugin);
     return CategoryPlugin;
-    var CategoryPlugin_1;
 }(components_1.ConverterComponent));
 exports.CategoryPlugin = CategoryPlugin;
 //# sourceMappingURL=CategoryPlugin.js.map

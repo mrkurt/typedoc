@@ -32,7 +32,7 @@ export declare enum ReflectionKind {
     VariableOrProperty = 1056,
     FunctionOrMethod = 2112,
     SomeSignature = 1601536,
-    SomeModule = 3,
+    SomeModule = 3
 }
 export declare enum ReflectionFlag {
     Private = 1,
@@ -48,7 +48,7 @@ export declare enum ReflectionFlag {
     ConstructorProperty = 1024,
     Abstract = 2048,
     Const = 4096,
-    Let = 8192,
+    Let = 8192
 }
 export interface ReflectionFlags extends Array<string> {
     flags?: ReflectionFlag;
@@ -83,7 +83,7 @@ export declare enum TraverseProperty {
     Signatures = 4,
     IndexSignature = 5,
     GetSignature = 6,
-    SetSignature = 7,
+    SetSignature = 7
 }
 export interface TraverseCallback {
     (reflection: Reflection, property: TraverseProperty): void;

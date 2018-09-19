@@ -207,7 +207,7 @@ var Reflection = (function () {
         return this._alias;
     };
     Reflection.prototype.hasComment = function () {
-        return (this.comment && this.comment.hasVisibleComponent());
+        return this.comment && this.comment.hasVisibleComponent();
     };
     Reflection.prototype.hasGetterOrSetter = function () {
         return false;

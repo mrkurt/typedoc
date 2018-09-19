@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -28,11 +31,11 @@ var TypePlugin = (function (_super) {
         return _this;
     }
     TypePlugin.prototype.initialize = function () {
+        var _a;
         this.listenTo(this.owner, (_a = {},
             _a[converter_1.Converter.EVENT_RESOLVE] = this.onResolve,
             _a[converter_1.Converter.EVENT_RESOLVE_END] = this.onResolveEnd,
             _a));
-        var _a;
     };
     TypePlugin.prototype.onResolve = function (context, reflection) {
         var _this = this;
@@ -91,30 +94,21 @@ var TypePlugin = (function (_super) {
         }
         function resolveType(reflection, type) {
             if (type instanceof index_2.ReferenceType) {
-                var referenceType = type;
-                if (referenceType.symbolID === index_2.ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME) {
-                    referenceType.reflection = reflection.findReflectionByName(referenceType.name);
+                if (type.symbolID === index_2.ReferenceType.SYMBOL_ID_RESOLVE_BY_NAME) {
+                    type.reflection = reflection.findReflectionByName(type.name);
                 }
-                else if (!referenceType.reflection && referenceType.symbolID !== index_2.ReferenceType.SYMBOL_ID_RESOLVED) {
-                    referenceType.reflection = project.reflections[project.symbolMapping[referenceType.symbolID]];
+                else if (!type.reflection && type.symbolID !== index_2.ReferenceType.SYMBOL_ID_RESOLVED) {
+                    type.reflection = project.reflections[project.symbolMapping[type.symbolID]];
                 }
-                if (referenceType.typeArguments) {
-                    referenceType.typeArguments.forEach(function (typeArgument) {
-                        resolveType(reflection, typeArgument);
-                    });
+                if (type.typeArguments) {
+                    resolveTypes(reflection, type.typeArguments);
                 }
             }
             else if (type instanceof index_2.TupleType) {
-                var tupleType = type;
-                for (var index = 0, count = tupleType.elements.length; index < count; index++) {
-                    resolveType(reflection, tupleType.elements[index]);
-                }
+                resolveTypes(reflection, type.elements);
             }
             else if (type instanceof index_2.UnionType || type instanceof index_2.IntersectionType) {
-                var unionOrIntersectionType = type;
-                for (var index = 0, count = unionOrIntersectionType.types.length; index < count; index++) {
-                    resolveType(reflection, unionOrIntersectionType.types[index]);
-                }
+                resolveTypes(reflection, type.types);
             }
             else if (type instanceof index_2.ArrayType) {
                 resolveType(reflection, type.elementType);

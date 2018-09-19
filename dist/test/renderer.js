@@ -55,6 +55,7 @@ describe('Renderer', function () {
             mode: 'Modules',
             logger: 'console',
             target: 'ES5',
+            readme: Path.join(src, '..', 'README.md'),
             module: 'CommonJS',
             gaSite: 'foo.com'
         });

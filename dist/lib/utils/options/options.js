@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -155,13 +158,9 @@ var Options = (function (_super) {
         }
     };
     Options.prototype.addDeclaration = function (declaration) {
-        var decl;
-        if (!(declaration instanceof declaration_1.OptionDeclaration)) {
-            decl = new declaration_1.OptionDeclaration(declaration);
-        }
-        else {
-            decl = declaration;
-        }
+        var decl = declaration instanceof declaration_1.OptionDeclaration
+            ? declaration
+            : new declaration_1.OptionDeclaration(declaration);
         for (var _i = 0, _a = decl.getNames(); _i < _a.length; _i++) {
             var name_2 = _a[_i];
             if (name_2 in this.declarations) {

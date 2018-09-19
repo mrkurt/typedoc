@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("..");
 var Path = require("path");
 var Assert = require("assert");
+require("./.dot");
 describe('TypeDoc', function () {
     var application;
     describe('Application', function () {
@@ -47,6 +48,13 @@ describe('TypeDoc', function () {
             var expanded = application.expandInputFiles([inputFiles]);
             Assert.equal(expanded.indexOf(Path.join(inputFiles, 'class', 'class.ts')), -1);
             Assert.equal(expanded.indexOf(Path.join(inputFiles, 'access', 'access.ts')), -1);
+            Assert.equal(expanded.indexOf(inputFiles), -1);
+        });
+        it('supports excluding directories beginning with dots', function () {
+            var inputFiles = __dirname;
+            application.options.setValue('exclude', '**/+(.dot)/**');
+            var expanded = application.expandInputFiles([inputFiles]);
+            Assert.equal(expanded.indexOf(Path.join(inputFiles, '.dot', 'index.d.ts')), -1);
             Assert.equal(expanded.indexOf(inputFiles), -1);
         });
     });

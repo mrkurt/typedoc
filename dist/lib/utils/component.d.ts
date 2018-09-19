@@ -6,8 +6,8 @@ export interface ComponentHost {
 }
 export interface Component extends AbstractComponent<ComponentHost> {
 }
-export interface ComponentClass<T extends Component> extends Function {
-    new (owner: ComponentHost): T;
+export interface ComponentClass<T extends Component, O extends ComponentHost = ComponentHost> extends Function {
+    new (owner: O): T;
 }
 export interface ComponentOptions {
     name?: string;
@@ -41,7 +41,7 @@ export declare abstract class ChildableComponent<O extends ComponentHost, C exte
     getComponent(name: string): C;
     getComponents(): C[];
     hasComponent(name: string): boolean;
-    addComponent<T extends C & Component>(name: string, componentClass: T | ComponentClass<T>): T;
+    addComponent<T extends C & Component>(name: string, componentClass: T | ComponentClass<T, O>): T;
     removeComponent(name: string): C;
     removeAllComponents(): void;
 }
